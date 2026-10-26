@@ -1,6 +1,22 @@
-import { GarmentData } from '../types';
+export interface GarmentItemData {
+  id: string;
+  name: string;
+  type: string;
+  category: string;
+  price: string;
+  colorName: string;
+  colorHex: string;
+  image: string;
+  backImage: string | null; // Explicit null if photographic back asset not provided
+  description: string;
+  details: string[];
+  sizes: string[];
+  fit: string;
+  hangerType: 'coat' | 'clip';
+  railYOffset: number; // Fine vertical alignment along the curved rail
+}
 
-export const GARMENTS: GarmentData[] = [
+export const GARMENTS: GarmentItemData[] = [
   {
     id: 'varsity-jacket',
     name: 'Archive Varsity Jacket',
@@ -9,9 +25,9 @@ export const GARMENTS: GarmentData[] = [
     price: '$380',
     colorName: 'Forest Green / Bone',
     colorHex: '#1B382B',
-    secondaryColorHex: '#EAE6DF',
-    accentColorHex: '#FFFFFF',
-    description: 'Heavyweight Melton wool body paired with supple calfskin leather sleeves. Finished with chainstitch archive chest monogram and striped wool-ribbed trims.',
+    image: '/garments/varsity-jacket.png',
+    backImage: null,
+    description: 'Heavyweight 650gsm Melton wool body paired with full-grain off-white leather sleeves. Chainstitch archive chest monogram and striped wool-ribbed trims.',
     details: [
       'Heavyweight 650gsm Melton wool body',
       'Full-grain off-white leather sleeves',
@@ -21,10 +37,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Relaxed boxy silhouette with dropped shoulders',
-    material: '70% Wool, 30% Leather',
-    pattern: 'solid',
-    railOffset: -2.7,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 0
   },
   {
     id: 'heavyweight-hoodie-oatmeal',
@@ -34,9 +48,9 @@ export const GARMENTS: GarmentData[] = [
     price: '$210',
     colorName: 'Raw Oatmeal',
     colorHex: '#D8D4CC',
-    secondaryColorHex: '#CAC5BB',
-    accentColorHex: '#524E48',
-    description: 'Ultra-dense 500gsm custom loopback French terry with pre-shrunk vintage wash. Double-layered hood without drawstrings for a clean architectural fall.',
+    image: '/garments/heavyweight-hoodie-oatmeal.png',
+    backImage: null,
+    description: 'Ultra-dense 500gsm custom loopback French terry with pre-shrunk vintage wash. Double-layered crossover hood without drawstrings for a clean architectural fall.',
     details: [
       '500gsm custom combed cotton loopback fleece',
       'Double-ply crossover hood construction',
@@ -45,10 +59,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     fit: 'Oversized boxy streetwear drape',
-    material: '100% Organic Heavy Cotton',
-    pattern: 'solid',
-    railOffset: -2.1,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 8
   },
   {
     id: 'piped-pullover-navy',
@@ -58,8 +70,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$240',
     colorName: 'Midnight Navy',
     colorHex: '#1A2338',
-    secondaryColorHex: '#121827',
-    accentColorHex: '#ECEBE4',
+    image: '/garments/piped-pullover-navy.png',
+    backImage: null,
     description: 'Architectural knit pullover featuring contrasting ecru piping along drop-shoulder seams and spine. Heavy drape fabric with structured ribbed cuffs.',
     details: [
       'Structured double-face interlock jersey',
@@ -69,10 +81,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Relaxed drop-shoulder cut',
-    material: '82% Cotton, 18% Polyamide',
-    pattern: 'piping',
-    railOffset: -1.5,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 12
   },
   {
     id: 'chunky-knit-burgundy',
@@ -82,8 +92,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$290',
     colorName: 'Oxblood Burgundy',
     colorHex: '#691D26',
-    secondaryColorHex: '#4E141C',
-    accentColorHex: '#882A35',
+    image: '/garments/chunky-knit-burgundy.png',
+    backImage: null,
     description: 'Chunky 5-gauge pure Merino wool rib knit with garment-dyed depth. Soft tactile hand feel with substantial warmth and natural drape.',
     details: [
       '100% Extra-fine Australian Merino wool',
@@ -93,10 +103,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Classic relaxed boxy fit',
-    material: '100% Merino Wool',
-    pattern: 'solid',
-    railOffset: -0.9,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 14
   },
   {
     id: 'mohair-striped-cardigan',
@@ -106,8 +114,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$340',
     colorName: 'Earthy Multi Stripe',
     colorHex: '#3D5A54',
-    secondaryColorHex: '#B26247',
-    accentColorHex: '#E2D8C6',
+    image: '/garments/mohair-striped-cardigan.png',
+    backImage: null,
     description: 'Artisanal brushed kid mohair blend featuring uneven horizontal bands in dusty teal, rust orange, and ecru. Featherlight loft with cozy insulation.',
     details: [
       '60% Kid Mohair, 25% Wool, 15% Polyamide',
@@ -117,10 +125,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L'],
     fit: 'Relaxed slouchy vintage drape',
-    material: 'Kid Mohair & Wool Blend',
-    pattern: 'stripes',
-    railOffset: -0.3,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 15
   },
   {
     id: 'washed-field-jacket',
@@ -130,8 +136,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$360',
     colorName: 'Faded Olive Drab',
     colorHex: '#364F42',
-    secondaryColorHex: '#2A3C33',
-    accentColorHex: '#4E6B5C',
+    image: '/garments/washed-field-jacket.png',
+    backImage: null,
     description: 'Enzyme-washed heavyweight cotton canvas military silhouette. Features 3D gusseted bellow pockets, reinforced elbow patches, and custom oxidized hardware.',
     details: [
       '420gsm heavy cotton ripstop canvas',
@@ -141,10 +147,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Roomy utilitarian outerwear cut',
-    material: '100% Heavy Cotton Canvas',
-    pattern: 'solid',
-    railOffset: 0.3,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 15
   },
   {
     id: 'wide-leg-denim',
@@ -154,8 +158,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$220',
     colorName: 'Ice Blue Acid Wash',
     colorHex: '#8DA6C2',
-    secondaryColorHex: '#738CA8',
-    accentColorHex: '#C5D7E8',
+    image: '/garments/wide-leg-denim.png',
+    backImage: null,
     description: 'Wide straight-cut silhouette crafted from 14oz Japanese selvedge denim. Finished with authentic vintage hand-sanding and nickel clip suspension.',
     details: [
       '14oz Japanese shuttle loom selvedge denim',
@@ -165,10 +169,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['30', '32', '34', '36'],
     fit: 'Wide leg with relaxed puddle hem',
-    material: '100% Cotton Selvedge Denim',
-    pattern: 'denim',
-    railOffset: 0.9,
-    hangerType: 'clip'
+    hangerType: 'clip',
+    railYOffset: 14
   },
   {
     id: 'chore-work-jacket',
@@ -178,8 +180,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$310',
     colorName: 'Toasted Caramel',
     colorHex: '#7A4A28',
-    secondaryColorHex: '#4E2F1B',
-    accentColorHex: '#2B1C12',
+    image: '/garments/chore-work-jacket.png',
+    backImage: null,
     description: 'Rugged duck canvas chore coat with contrasting dark espresso corduroy collar. Built to soften with wear and develop a personalized patina.',
     details: [
       '12oz firm-hand ring-spun duck canvas',
@@ -189,10 +191,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Square workwear silhouette',
-    material: '100% Cotton Duck Canvas',
-    pattern: 'solid',
-    railOffset: 1.5,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 12
   },
   {
     id: 'fleece-hoodie-heather',
@@ -202,8 +202,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$210',
     colorName: 'Muted Heather Grey',
     colorHex: '#B8B9B7',
-    secondaryColorHex: '#A2A4A1',
-    accentColorHex: '#FFFFFF',
+    image: '/garments/fleece-hoodie-heather.png',
+    backImage: null,
     description: 'Brushed interior heavyweight fleece with relaxed ergonomic shoulder panelling. Clean front pocket opening and subtle tonal branding stamp.',
     details: [
       '480gsm custom combed cotton fleece',
@@ -213,10 +213,8 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Boxy streetwear drape with high waist break',
-    material: '90% Combed Cotton, 10% Polyester',
-    pattern: 'solid',
-    railOffset: 2.1,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 8
   },
   {
     id: 'shadow-plaid-overshirt',
@@ -226,8 +224,8 @@ export const GARMENTS: GarmentData[] = [
     price: '$230',
     colorName: 'Charcoal & Amber Plaid',
     colorHex: '#38332E',
-    secondaryColorHex: '#1E1B18',
-    accentColorHex: '#69553F',
+    image: '/garments/shadow-plaid-overshirt.png',
+    backImage: null,
     description: 'Heavyweight brushed cotton twill in custom shadow ombre plaid. Features dual buttoned flap chest pockets and a soft fray-stitched raw hem detail.',
     details: [
       '380gsm double-brushed cotton twill flannel',
@@ -237,9 +235,7 @@ export const GARMENTS: GarmentData[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     fit: 'Relaxed overshirt profile designed for layering',
-    material: '100% Brushed Cotton Twill',
-    pattern: 'plaid',
-    railOffset: 2.7,
-    hangerType: 'coat'
+    hangerType: 'coat',
+    railYOffset: 0
   }
 ];
