@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { GARMENTS, GarmentItemData } from './data/garments';
 import { ClothingRack } from './components/ClothingRack';
-import { ProductFocusView } from './components/ProductFocusView';
+import { FocusControls } from './components/FocusControls';
 import { sfx } from './utils/audio';
 import { Volume2, VolumeX, X, ShieldCheck, RefreshCw } from 'lucide-react';
 
 export default function App() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Support URL query params for testing (?hover=id, ?select=id)
+  const initialHover = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('hover') : null;
+  const initialSelect = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('select') : null;
+
+  const [hoveredId, setHoveredId] = useState<string | null>(initialHover);
+  const [selectedId, setSelectedId] = useState<string | null>(initialSelect);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -21,7 +25,7 @@ export default function App() {
     sfx.enabled = soundEnabled;
   }, [soundEnabled]);
 
-  // Hover handler with micro-sound
+  // Hover handler with sound feedback
   const handleHover = useCallback((id: string | null) => {
     setHoveredId((prev) => {
       if (prev !== id && id !== null) {
@@ -33,11 +37,14 @@ export default function App() {
 
   // Selection handler
   const handleSelect = useCallback((id: string) => {
-    setSelectedId(id);
-    sfx.playSelect();
+    setSelectedId((prev) => {
+      if (prev === id) return null;
+      sfx.playSelect();
+      return id;
+    });
   }, []);
 
-  // Close inspection
+  // Close focus
   const handleClose = useCallback(() => {
     setSelectedId(null);
     sfx.playWhoosh();
@@ -83,6 +90,12 @@ export default function App() {
         backgroundImage: "url('/studio-stage.jpg')",
         backgroundColor: '#94918c',
       }}
+      onClick={(e) => {
+        // If clicking outside rack when in focus mode, dismiss focus
+        if (selectedId && (e.target as HTMLElement).tagName === 'MAIN') {
+          handleClose();
+        }
+      }}
     >
       {/* ================= TOP HEADER BAR ================= */}
       <header className="relative w-full flex items-center justify-between z-20 pointer-events-auto">
@@ -115,7 +128,7 @@ export default function App() {
           )}
         </button>
 
-        {/* Minimal Two-Line Hamburger Menu in Top-Right (replicates reference design) */}
+        {/* Minimal Two-Line Hamburger Menu in Top-Right */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="w-10 h-10 flex flex-col items-end justify-center gap-1.5 p-2 focus:outline-none group cursor-pointer"
@@ -136,10 +149,10 @@ export default function App() {
 
       {/* ================= CENTER HERO COMPOSITION ================= */}
       <div className="relative w-full flex-1 flex flex-col items-center justify-center my-auto z-10">
-        {/* Editorial Headline: Sits above the rail and NEVER overlaps the garments */}
+        {/* Editorial Headline: Always above the rack, never overlapping garments */}
         <div
-          className={`flex flex-col items-center justify-center text-center transition-all duration-700 mb-2 md:mb-4 ${
-            selectedId ? 'opacity-20 blur-sm scale-95' : 'opacity-100 scale-100'
+          className={`flex flex-col items-center justify-center text-center transition-all duration-500 mb-2 md:mb-4 ${
+            selectedId ? 'opacity-40 scale-95 blur-[1px]' : 'opacity-100 scale-100'
           }`}
         >
           <span className="text-white text-[11px] md:text-sm font-semibold tracking-[0.45em] uppercase drop-shadow font-sub">
@@ -150,12 +163,8 @@ export default function App() {
           </h1>
         </div>
 
-        {/* Clothing Rack: Suspended Chrome Rail & 10 Streetwear Garments */}
-        <div
-          className={`w-full transition-all duration-700 ${
-            selectedId ? 'opacity-20 blur-sm scale-95 pointer-events-none' : 'opacity-100 scale-100'
-          }`}
-        >
+        {/* Clothing Rack: Always in-place, handles hover spread & in-place selection */}
+        <div className="w-full">
           <ClothingRack
             garments={GARMENTS}
             hoveredId={hoveredId}
@@ -170,7 +179,7 @@ export default function App() {
       {/* NEVER BASIC (bottom-left), Tagline (bottom-center), SHOP NOW (bottom-right) */}
       <footer
         className={`w-full flex items-end justify-between z-20 pointer-events-auto transition-opacity duration-500 ${
-          selectedId ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          selectedId ? 'opacity-30' : 'opacity-100'
         }`}
       >
         {/* Bottom Left: NEVER BASIC */}
@@ -201,9 +210,9 @@ export default function App() {
         </div>
       </footer>
 
-      {/* ================= FOCUSED PRODUCT INSPECTION MODAL ================= */}
+      {/* ================= NON-DESTRUCTIVE FOCUS CONTROLS ================= */}
       {selectedGarment && (
-        <ProductFocusView
+        <FocusControls
           garment={selectedGarment}
           onClose={handleClose}
           onPrev={handlePrevGarment}
@@ -225,7 +234,7 @@ export default function App() {
                 <span className="font-script text-4xl text-white">Archive</span>
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -245,7 +254,7 @@ export default function App() {
                       setMenuOpen(false);
                       handleSelect(item.id);
                     }}
-                    className="flex items-center justify-between group py-1 text-left w-full"
+                    className="flex items-center justify-between group py-1 text-left w-full cursor-pointer"
                   >
                     <span className="text-lg font-semibold tracking-tight text-white/90 group-hover:text-amber-200 transition-colors">
                       {item.name}

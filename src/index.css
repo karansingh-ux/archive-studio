@@ -18,7 +18,7 @@
     background-color: #94918c;
     color: #ffffff;
     user-select: none;
-    touch-action: none;
+    touch-action: pan-x pan-y;
   }
 }
 
@@ -35,22 +35,11 @@
   font-family: 'Montserrat', 'Inter', sans-serif;
 }
 
-/* Subtle glassmorphism and backdrop blur */
-.glass-panel {
-  background: rgba(22, 22, 22, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+/* Hide scrollbars cleanly */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
-
-.glass-pill {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Custom smooth transitions */
-.transition-smooth {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
