@@ -7,10 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        display: ['"Clash Display"', '"Cabinet Grotesk"', 'Impact', 'sans-serif'],
-        script: ['"Reenie Beanie"', '"Caveat"', '"Brush Script MT"', 'cursive'],
-        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Anybody"', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Anybody"', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
         studio: {
